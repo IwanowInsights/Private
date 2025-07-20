@@ -1,0 +1,48 @@
+<script>
+  const publicSpreadsheetURL = 'YOUR_SHEET_PUBLISH_URL';
+
+  function init() {
+    Tabletop.init({
+      key: publicSpreadsheetURL,
+      callback: showInfo,
+      simpleSheet: false
+    });
+  }
+
+  function showInfo(data) {
+    const standings = data["Standings"].elements;
+    const matches = data["MatchHistory"].elements;
+
+    const standingsBody = document.querySelector("#standings-table tbody");
+    standingsBody.innerHTML = "";
+    standings.forEach(player => {
+      standingsBody.innerHTML += `
+        <tr>
+          <td>${player.Rank}</td>
+          <td>${player.Player}</td>
+          <td>${player.Faction}</td>
+          <td>${player.Wins}</td>
+          <td>${player.Losses}</td>
+          <td>${player.Points}</td>
+        </tr>
+      `;
+    });
+
+    const matchBody = document.querySelector("#match-history-table tbody");
+    matchBody.innerHTML = "";
+    matches.forEach(match => {
+      matchBody.innerHTML += `
+        <tr>
+          <td>${match.Round}</td>
+          <td>${match.Player1}</td>
+          <td>${match.Faction1}</td>
+          <td>${match.Player2}</td>
+          <td>${match.Faction2}</td>
+          <td>${match.Winner}</td>
+        </tr>
+      `;
+    });
+  }
+
+  window.addEventListener('DOMContentLoaded', init);
+</script>
